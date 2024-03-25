@@ -1,4 +1,4 @@
-from pyvmo.format import vcf_to_vmo
+from pyvmo.format import vcf_to_vmo, vmo_to_bimbam
 from pyvmo.operation import extract_sub_vmo, get_valid_variant_index
 from toolbiox.lib.common.os import mkdir
 from toolbiox.lib.common.util import pickle_load
@@ -53,6 +53,9 @@ class VMO(object):
             m, maf_thr=maf_thr, mis_thr=mis_thr, chunk_size=chunk_size, n_jobs=n_jobs)
         return np.where(valid_variant_bool_index)[0]
 
+    # convert to bimbam
+    def to_bimbam(self, bimbam_file, chunk_size=1000, n_jobs=8):
+        vmo_to_bimbam(self, bimbam_file, chunk_size=chunk_size, n_jobs=n_jobs)
 
 if __name__ == '__main__':
     vcf_file = "my_vcf_file"

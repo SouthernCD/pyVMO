@@ -1,5 +1,5 @@
 from joblib import Parallel, delayed
-from toolbiox.lib.common.os import have_file
+from toolbiox.lib.common.os import have_file, mkdir
 from toolbiox.lib.common.util import pickle_dump
 import gc
 import h5py
@@ -11,6 +11,7 @@ import time
 
 
 def extract_sub_vmo(vmo, sub_vmo_dir, var_idx_list=None, spl_idx_list=None, chunk_size=10000, force_update=False):
+    mkdir(sub_vmo_dir, False if force_update else True)
 
     variants_info_store = "%s/variants_info_store.h5" % sub_vmo_dir
     samples_info_store = "%s/samples_info_store.h5" % sub_vmo_dir

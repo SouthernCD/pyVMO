@@ -62,7 +62,7 @@ def vcf_to_vmo(input_vcf_file, output_vmo, chunk_size=10000, force_update=False)
                         parsed_ratio = block_parsed_num/total_chunks*100
                         if parsed_ratio - last_printed_ratio >= 1:
                             logger_handle.write("%s: parsed %d blocks (%.2f%%)\n" % (time.strftime(
-                                "%Y-%m-%d %H:%M:%S", time.localtime()), block_parsed_num, block_parsed_num*chunk_size*chunk_size/len(rows)/len(columns)*100))
+                                "%Y-%m-%d %H:%M:%S", time.localtime()), block_parsed_num, parsed_ratio))
                             logger_handle.flush()
                             last_printed_ratio = parsed_ratio
 
