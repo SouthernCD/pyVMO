@@ -8,6 +8,7 @@ versions = [
         "features": [
             "1. convert vmo to bimbam",
             "2. bug fix",
+            "3. add readme",
         ],
     },
     {
