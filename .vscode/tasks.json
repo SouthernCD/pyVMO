@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Sync PSU05",
+            "type": "shell",
+            "command": "rsync -avz --progress --exclude='.git/' --exclude='node_modules/' --exclude='*.log' /Users/yuxingxu/Job/python_project/XupyterLab psu05:/storage/home/ypx5196/work/python",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            }
+        },
+        {
+            "label": "Sync cn04",
+            "type": "shell",
+            "command": "rsync -avz --progress --exclude='.git/' --exclude='node_modules/' --exclude='*.log' /Users/yuxingxu/Job/python_project/pyVMO cn04_acc2:/lustre/home/xuyuxing/python_project",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            }
+        }        
+    ]
+}

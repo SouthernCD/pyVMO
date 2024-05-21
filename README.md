@@ -9,13 +9,22 @@ pip install pyvmo
 
 ## Usage
 
+### From GWAS
+
 1. Compress and index your raw vcf files
 ```
-bgzip -c your_raw.vcf
+bgzip your_raw.vcf
 tabix -p vcf your_raw.vcf.gz
 ```
 
 2. Convert the vcf file to vmo, which is a numpy based memmap file (memory map) that will help you read oversized matrices to get the job done in limited memory
+
+shell
+```
+PyVMO converter -vcf2vmo your_raw.vcf.gz test.vmo
+```
+
+python
 ```
 from pyvmo import VMO
 
@@ -27,6 +36,13 @@ vmo.store_vcf_to_vmo(raw_vcf_file)
 ```
 
 3. Extraction of useful submatrices by sample listing, variant site quality control
+
+shell
+```
+PyVMO extractor sample.id.list test.vmo filter.vmo
+```
+
+python
 ```
 # extract by sample list
 spl_idx_list = vmo.get_samples_index(sample_id_list)
@@ -40,26 +56,41 @@ var_vmo = spl_vmo.extract_sub_vmo(var_vmo_path, var_idx_list=var_idx_list)
 ```
 
 4. Convert the vmo file into bimbam format
+
+shell
+```
+PyVMO converter -vmo2bimbam filter.vmo filter.bimbam
+```
+
+python
 ```
 bimbam_file = "give_me_your_bimbam_file_path"
 var_vmo.to_bimbam(bimbam_file)
 ```
 
-5. Get numpy array from vmo
+5. get genetic distance matrix
+
+shell
+```
+PyVMO distance filter.vmo ibs.matrix
+```
+
+### From Other practices
+
+1. Get numpy array from vmo
 ```
 m = var_vmo.get_matrix()
 ```
 
-6. Get the sample list
+2. Get the sample list
 ```
 sample_list = var_vmo.get_sample_info()
 ```
 
-7. Get the variant information in a pandas dataframe
+3. Get the variant information in a pandas dataframe
 ```
 var_info_df = var_vmo.get_variant_info()
 
-# get the variant information by index
 var_index = 1
 
 chr_id = var_info_df.iloc[i]['CHROM']

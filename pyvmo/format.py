@@ -139,7 +139,7 @@ def vmo_to_bimbam(vmo, bimbam_file, chunk_size=1000, n_jobs=8):
             major_allele = ref if ref_num[i] > alt_num[i] else alt
             major_allele_is_ref = ref_num[i] > alt_num[i]
 
-            var_id = "%s_%d_%s/%s" % (chr_id, pos, minor_allele, major_allele)
+            var_id = "%s_%d_%s/%s" % (chr_id, pos, ref, alt)
 
             bimbam_col_list = [var_id, minor_allele, major_allele] +  list(np.sum(m[i], axis=1) if major_allele_is_ref else  np.sum(np.abs(m[i] - 1),axis=1))
 

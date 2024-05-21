@@ -16,9 +16,9 @@ setuptools.setup(
     url="https://github.com/SouthernCD/pyVMO",
     include_package_data = True,
 
-    # entry_points={
-    #     "console_scripts": ["PyVMO = pyvmo.cli:main"]
-    # },    
+    entry_points={
+        "console_scripts": ["PyVMO = pyvmo.cli:main"]
+    },    
 
     packages=setuptools.find_packages(),
 
