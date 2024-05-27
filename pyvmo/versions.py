@@ -4,6 +4,12 @@ def get_versions():
 
 versions = [
     {
+        "number": "0.0.4",
+        "features": [
+            "1. Add stores QUAL, FILTER and INFO to vmo",
+        ],
+    },
+    {
         "number": "0.0.3",
         "features": [
             "1. add command line interface",

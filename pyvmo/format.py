@@ -1,6 +1,7 @@
 from cyvcf2 import VCF
 from toolbiox.lib.common.os import mkdir, have_file
 from toolbiox.lib.common.util import pickle_dump
+from toolbiox.lib.common.sqlite_command import pickle_load_obj, pickle_dump_obj
 from pyvmo.operation import get_mis_ref_alt_num_parallel
 import allel
 import gc
@@ -8,6 +9,7 @@ import h5py
 import numpy as np
 import pandas as pd
 import time
+import pickle
 
 
 def vcf_to_vmo(input_vcf_file, output_vmo, chunk_size=10000, force_update=False):
@@ -85,12 +87,29 @@ def vcf_to_vmo(input_vcf_file, output_vmo, chunk_size=10000, force_update=False)
             variants_list = []
             for variant in vcf_reader():
                 # variant
-                variants_list.append({
+                # variant_dict = {
+                #     'CHROM': variant.CHROM,
+                #     'POS': variant.POS,
+                #     'ID': variant.ID,
+                #     'REF': variant.REF,
+                #     'ALT': variant.ALT,
+                #     'QUAL': variant.QUAL,
+                #     'FILTER': variant.FILTERS,
+                #     'INFO': dict(variant.INFO)
+                # }                
+
+                variant_dict = {
                     'CHROM': variant.CHROM,
                     'POS': variant.POS,
+                    'ID': variant.ID,
                     'REF': variant.REF,
-                    'ALT': ','.join([str(a) for a in variant.ALT]),
-                })
+                    'ALT': pickle_dump_obj(variant.ALT),
+                    'QUAL': pickle_dump_obj(variant.QUAL),
+                    'FILTER': pickle_dump_obj(variant.FILTERS),
+                    'INFO': pickle_dump_obj(dict(variant.INFO))
+                }                
+
+                variants_list.append(variant_dict)                
 
                 num += 1
                 if num % 100000 == 0:
@@ -133,7 +152,7 @@ def vmo_to_bimbam(vmo, bimbam_file, chunk_size=1000, n_jobs=8):
             chr_id = var_df.iloc[i]['CHROM']
             pos = int(var_df.iloc[i]['POS'])
             ref = var_df.iloc[i]['REF']
-            alt = var_df.iloc[i]['ALT']
+            alt = pickle_load_obj(var_df.iloc[i]['ALT'])[0]
 
             minor_allele = alt if ref_num[i] > alt_num[i] else ref
             major_allele = ref if ref_num[i] > alt_num[i] else alt

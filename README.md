@@ -89,6 +89,8 @@ sample_list = var_vmo.get_sample_info()
 
 3. Get the variant information in a pandas dataframe
 ```
+from toolbiox.lib.common.sqlite_command import pickle_load_obj, pickle_dump_obj
+
 var_info_df = var_vmo.get_variant_info()
 
 var_index = 1
@@ -96,5 +98,8 @@ var_index = 1
 chr_id = var_info_df.iloc[i]['CHROM']
 pos = int(var_info_df.iloc[i]['POS'])
 ref = var_info_df.iloc[i]['REF']
-alt = var_info_df.iloc[i]['ALT']
+alt = pickle_load_obj(var_info_df.iloc[i]['ALT']) # alt is a list
+qual = pickle_load_obj(var_info_df.iloc[i]['QUAL'])
+filter = pickle_load_obj(var_info_df.iloc[i]['FILTER'])
+info = pickle_load_obj(var_info_df.iloc[i]['INFO']) # info is a dict
 ```
