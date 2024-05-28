@@ -104,9 +104,9 @@ def vcf_to_vmo(input_vcf_file, output_vmo, chunk_size=10000, force_update=False)
                     'ID': variant.ID,
                     'REF': variant.REF,
                     'ALT': pickle_dump_obj(variant.ALT),
-                    'QUAL': pickle_dump_obj(variant.QUAL),
-                    'FILTER': pickle_dump_obj(variant.FILTERS),
-                    'INFO': pickle_dump_obj(dict(variant.INFO))
+                    # 'QUAL': pickle_dump_obj(variant.QUAL),
+                    # 'FILTER': pickle_dump_obj(variant.FILTERS),
+                    # 'INFO': pickle_dump_obj(dict(variant.INFO))
                 }                
 
                 variants_list.append(variant_dict)                

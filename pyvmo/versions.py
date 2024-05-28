@@ -4,6 +4,18 @@ def get_versions():
 
 versions = [
     {
+        "number": "0.0.6",
+        "features": [
+            "1. debug",
+        ],
+    },
+    {
+        "number": "0.0.5",
+        "features": [
+            "1. remove QUAL, FILTER and INFO from vmo, because it is too big and not necessary to store them in vmo",
+        ],
+    },
+    {
         "number": "0.0.4",
         "features": [
             "1. Add stores QUAL, FILTER and INFO to vmo",
