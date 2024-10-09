@@ -1,5 +1,5 @@
 # pyVMO
-pyVMO (python Variant Memmap Object), a python toolkit to help you work with very large variational matrices.
+pyVMO (python Variant Memmap Object), a Python toolkit to help you work with huge variant matrices.
 
 
 ## Installation
