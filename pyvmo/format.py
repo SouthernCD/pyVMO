@@ -1,7 +1,6 @@
 from cyvcf2 import VCF
-from toolbiox.lib.common.os import mkdir, have_file
-from toolbiox.lib.common.util import pickle_dump
-from toolbiox.lib.common.sqlite_command import pickle_load_obj, pickle_dump_obj
+from yxutil import mkdir, have_file, pickle_dump
+from yxsql import pickle_load_obj, pickle_dump_obj
 from pyvmo.operation import get_mis_ref_alt_num_parallel
 import allel
 import gc
@@ -138,7 +137,7 @@ def vmo_to_vcf(vmo):
     pass
 
 
-def vmo_to_bimbam(vmo, bimbam_file, chunk_size=1000, n_jobs=8):
+def vmo_to_bimbam(vmo, bimbam_file, chunk_size=1000, n_jobs=8, keep_raw_id=False):
 
     m = vmo.get_matrix()
 
@@ -158,9 +157,12 @@ def vmo_to_bimbam(vmo, bimbam_file, chunk_size=1000, n_jobs=8):
             major_allele = ref if ref_num[i] > alt_num[i] else alt
             major_allele_is_ref = ref_num[i] > alt_num[i]
 
-            var_id = "%s_%d_%s/%s" % (chr_id, pos, ref, alt)
-
-            bimbam_col_list = [var_id, minor_allele, major_allele] +  list(np.sum(m[i], axis=1) if major_allele_is_ref else  np.sum(np.abs(m[i] - 1),axis=1))
+            if keep_raw_id:
+                var_id = var_df.iloc[i]['ID']
+                bimbam_col_list = [var_id, alt, ref] + list(np.sum(m[i], axis=1))
+            else:
+                var_id = "%s_%d_%s/%s" % (chr_id, pos, ref, alt)
+                bimbam_col_list = [var_id, minor_allele, major_allele] +  list(np.sum(m[i], axis=1) if major_allele_is_ref else  np.sum(np.abs(m[i] - 1),axis=1))
 
             bimbam_handle.write(",".join([str(i) for i in bimbam_col_list]) + "\n")
 

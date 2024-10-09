@@ -4,6 +4,13 @@ def get_versions():
 
 versions = [
     {
+        "number": "0.0.7",
+        "features": [
+            "1. fit the yxutil",
+            "2. add keep_raw_id option to vmo2bimbam",
+        ],
+    },
+    {
         "number": "0.0.6",
         "features": [
             "1. debug",

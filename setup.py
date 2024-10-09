@@ -23,7 +23,11 @@ setuptools.setup(
     packages=setuptools.find_packages(),
 
     install_requires=[
-        "toolbiox>=0.0.44",
+        "yxutil",
+        "yxsql",
+        "numpy",
+        "pandas",
+        "joblib",
         "scikit-allel>=1.3.7",
         "cyvcf2>=0.30.28",
         "h5py>=3.10.0",

@@ -31,6 +31,8 @@ class Job(object):
                                 help='convert vcf to vmo', default=True)
         parser_a.add_argument('-vmo2vcf', action='store_true',
                                 help='convert vmo to vcf', default=False)
+        parser_a.add_argument('-k', '--keep_raw_id', action='store_true',
+                                help='Keep the raw ID. If using the raw ID for a BIMBAM file, the second and third columns will be the alt and ref alleles, respectively. The data will represent the alt count.', default=False)
         parser_a.set_defaults(func=converter_main)
 
         # argparse for extractor
@@ -99,7 +101,7 @@ class Job(object):
 def converter_main(args):
     if args.vmo2bimbam:
         vmo = VMO(args.input_path)
-        vmo.to_bimbam(args.output_path)
+        vmo.to_bimbam(args.output_path, keep_raw_id=args.keep_raw_id)
     elif args.vcf2vmo:
         vmo = VMO(args.output_path)
         vmo.store_vcf_to_vmo(args.input_path)

@@ -16,7 +16,7 @@
         {
             "label": "Sync cn04",
             "type": "shell",
-            "command": "rsync -avz --progress --exclude='.git/' --exclude='node_modules/' --exclude='*.log' /Users/yuxingxu/Job/python_project/pyVMO cn04_acc2:/lustre/home/xuyuxing/python_project",
+            "command": "rsync -avz --progress --exclude='.git/' --exclude='node_modules/' --exclude='*.log' /Users/yuxingxu/code/python_project/pyVMO cn04_acc2:/lustre/home/xuyuxing/python_project",
             "group": {
                 "kind": "build",
                 "isDefault": true
