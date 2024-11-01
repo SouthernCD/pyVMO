@@ -9,6 +9,50 @@ pip install pyvmo
 
 ## Usage
 
+### Operation of large vcf files (Recommended use of bcftools to manipulate vcf files)
+
+1. Compress and index your raw vcf files
+``` shell
+bgzip your_raw.vcf
+tabix -p vcf your_raw.vcf.gz
+OR
+bcftools index --tbi --threads 5 your_raw.vcf.gz
+```
+
+2. Extraction of sub-vcf file by a sample list
+
+Only keep the samples in the sample.id.list file and remove sites which are not polymorphic in the sample list.
+
+``` shell
+bcftools view --threads 20 -c 1 -O z -o sample.vcf.gz -S sample.id.list raw.vcf.gz
+```
+
+3. Extraction of sub-vcf file by variant site quality control
+
+Only keep sites with MAF > 0.05 and missing rate < 0.5.
+
+``` shell
+bcftools +fill-tags input.vcf.gz -O z -o input_with_tags.vcf.gz -- -t MAF,F_MISSING
+bcftools view -i "MAF>0.05&&F_MISSING<0.5" input_with_tags.vcf.gz -Oz -o filtered_output.vcf.gz
+```
+
+4. Extraction of sub-vcf file by region
+
+Only keep sites in the region of chr1:1000000-2000000.
+
+``` shell
+bcftools view --threads 20 -c 1 -O z -o region.vcf.gz -r chr1:1000000-2000000 raw.vcf.gz
+```
+
+5. Extraction of sub-vcf file by variant site list
+
+Only keep sites in the variant site list file. The variant list file should be a tab-delimited file with the first two columns being the chromosome and position of the variant.
+
+``` shell
+bcftools view --threads 20 -c 1 -O z -o varlist.vcf.gz -T var.list raw.vcf.gz
+```
+
+
 ### From GWAS
 
 1. Compress and index your raw vcf files
